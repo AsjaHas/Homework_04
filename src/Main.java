@@ -87,7 +87,7 @@ public class Main {
 //        Modifikujte petlju da mozete artimeticke operacije da radite u nedogled sve dok ne upisete "=" i zatim enter kada ce se ispisati samo total
         result = 0;
         do {
-            System.out.println("Which operation would you like to use: *,/,+,-?");
+            System.out.println("Which operation would you like to use: *,/,+,-? (Enter = to see the result)");
             reader.nextLine();
             operator = reader.nextLine();
             if (operator.equals("=")) {
@@ -108,6 +108,87 @@ public class Main {
         {
             System.out.println("The final result is: " + result);
         }
+        System.out.println("\n" + "Task 2" + "\n");
+//        Napravite petlju u koju unosite brojeve kada petlja detektuje broj -10, ispise vam se niz brojeva koje ste unjeli. Zatim ce vam se na ekranu pojaviti pitanje da li zelite da prosirite array sa opcijama y/n.
+//        Ukoliko upisete y, ponovno unosite brojeve koji cete dodavati na niz kada ponovno unesete -10 ispisu vam se svi brojevi koje ste unjeli.
+        int[] array = new int[100];
+        int num;
+        int index = 0;
+        boolean yesOrNo = true;
+        do {
+            System.out.println("What is the number you would like to add to the array? (Type in -10 to see your array.)");
+            num = reader.nextInt();
+            if (num != -10) {
+                array[index] = num;
+                index++;
+            } else {
+                System.out.println("Your array is: ");
+                for (int i = 0; i < index; i++) {
+                    System.out.print(array[i] + " ");
+                }
+                System.out.println("\n" + "Do you want to expand your array? y/n");
+                reader.nextLine();
+                String yOrN = reader.nextLine();
+                if (yOrN.equals("n")) {
+                    yesOrNo = false;
+                } else {
+                    yesOrNo = true;
+                }
+            }
+        } while (yesOrNo == true);
+        System.out.println("\n" + "Task 3" + "\n");
+        //        Napravite funkciju koja provjereava da li je nesto palindrom,
+//        Napravite Funkciju koja iz niza izbacuje brojeve koji mi specifikujemo,
+//        Napravite funkciju koja provjerava da li je broj djeljiv sa brojem x.
+//        Kada se pokrene aplikacija Pojavi vam se meni
+        System.out.println("Menu: ");
+        System.out.println("1. Is word a palindrome?");
+        System.out.println("2. Filter an array!");
+        System.out.println("3. Is number divisible by x?");
+        System.out.println("Type in the number 1, 2 or 3");
+        int menuNum = reader.nextInt();
+        if (menuNum == 1) {
+            System.out.println("Enter a word to check if it is a palindrome:");
+            reader.nextLine();
+            String wordPalindrome = reader.nextLine();
+            if (wordHasVowels(wordPalindrome)) {
+                System.out.println("The word " + wordPalindrome + " is a palindrome.");
+            } else {
+                System.out.println("The word " + wordPalindrome + " is not a palindrome.");
+            }
+        } else if (menuNum == 2) {
+            index = 0;
+            do {
+                System.out.println("What is the number you would like to add to the array? (Type in -1000 to finish your array.)");
+                num = reader.nextInt();
+                if (num != -1000) {
+                    array[index] = num;
+                    index++;
+                } else {
+                    System.out.println("Your array is: ");
+                    for (int i = 0; i < index; i++) {
+                        System.out.print(array[i] + " ");
+                    }
+                }
+            } while (num != -1000);
+            System.out.println("\n" + "Enter a number you would like to remove from array: ");
+            int numDel = reader.nextInt();
+            int[] filterArray = filterArray(array, numDel);
+            System.out.println("Your filtered array is: ");
+            for (int i = 0; i < index - 1; i++) {
+                System.out.print(filterArray[i] + " ");
+            }
+        } else if (menuNum == 3) {
+            System.out.println("Enter a dividend: ");
+            int dividend = reader.nextInt();
+            System.out.println("Enter a divisor: ");
+            int divisor = reader.nextInt();
+            if (isNumberDivisibleByX(dividend, divisor)) {
+                System.out.println("Number " + dividend + " is divisible by " + divisor + " .");
+            } else {
+                System.out.println("Number " + dividend + " is not divisible by " + divisor + " .");
+            }
+        }
     }
 
     static int add(int x, int y) {
@@ -124,6 +205,38 @@ public class Main {
 
     static int mul(int x, int y) {
         return x * y;
+    }
+
+    static boolean isNumberDivisibleByX(int dividend, int divisor) {
+        return (dividend % divisor) == 0;
+    }
+
+    static int[] filterArray(int[] array, int numDel) {
+        int index = 0;
+        int[] filterArray = new int[array.length - 1];
+        for (int i = 0; i < filterArray.length; i++) {
+            if (array[i] != numDel) {
+                filterArray[index++] = array[i];
+            }
+        }
+        return filterArray;
+    }
+
+    static boolean wordHasVowels(String wordPalindrome) {
+        boolean wordIsPalindrome = true;
+        char[] wordPalindromeToCharArray = wordPalindrome.toCharArray();
+        char[] reverseWordPalindromeToCharArray = new char[wordPalindromeToCharArray.length];
+        for (int i = 0; i < wordPalindromeToCharArray.length; i++) {
+            reverseWordPalindromeToCharArray[i] = wordPalindromeToCharArray[wordPalindromeToCharArray.length - 1 - i];
+        }
+        for (int i = 0; i < wordPalindromeToCharArray.length; i++) {
+            if (wordPalindromeToCharArray[i] != reverseWordPalindromeToCharArray[i]) {
+                wordIsPalindrome = false;
+            } else {
+                wordIsPalindrome = true;
+            }
+        }
+        return wordIsPalindrome;
     }
 }
 
